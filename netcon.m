@@ -1,4 +1,4 @@
-function [sequence,cost] = netcon(legLinks,verbosity,costType,muCap,allowOPs,legCosts)
+function [sequence,cost] = netcon(legLinks,verbosity,costType,muCap,allowOPs,legCosts,i,time_file,cost_file,order_file)
 % function [sequence cost] = netcon(legLinks,verbosity,costType,muCap,allowOPs,legCosts)
 % Finds most efficient way to contract a tensor network
 % v2.01 by Robert N. C. Pfeifer 2014, 2015
@@ -99,6 +99,13 @@ function [sequence,cost] = netcon(legLinks,verbosity,costType,muCap,allowOPs,leg
     cost = cell(1,subnetcounter);
     freelegs = cell(1,subnetcounter);
     donetrace = false(1,subnetcounter);
+
+    timeID = fopen(time_file, "a");
+    costID = fopen(cost_file, "a");
+    orderID = fopen(order_file, "a");
+
+    tic;
+    t = cputime;
     for a=1:subnetcounter
         if verbosity > 0
             disp(' ');
@@ -118,6 +125,13 @@ function [sequence,cost] = netcon(legLinks,verbosity,costType,muCap,allowOPs,leg
     [sequence,cost] = performOPs(sequence,cost,freelegs,legCosts,costType,verbosity);
     sequence = [sequence trivialindices]; % Append tracing over trivial indices on final object
     
+    cpu_time = cputime-t;
+    wall_time = toc;
+    fprintf(timeID, "%d,%f,%f\n", i, cpu_time, wall_time);
+    fprintf(costID, "%d,%f\n", i, cost);
+    fprintf(orderID, "%d,%s\n", i, unpaddednum2str(sequence));
+    fclose(timeID); fclose(costID); fclose(orderID);
+
     % Display result
     % ==============
     if verbosity>0
@@ -299,6 +313,7 @@ function [sequence,cost,negindices,donetrace] = netcon_getsubnetcost(legLinks,ve
             tracedindices = int32(sort(tracedindices,'ascend'));
             try
                 [sequence,cost] = netcon_nondisj_cpp(legLinks,legCosts,verbosity,costType,muCap,allowOPs,posindices,tracedindices);
+
             catch ME
                 if isequal(ME.identifier,'MATLAB:UndefinedFunction')
                     [sequence,cost] = netcon_nondisj(legLinks,legCosts,verbosity,costType,muCap,allowOPs,posindices,tracedindices);
