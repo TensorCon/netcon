@@ -1,9 +1,9 @@
 # netcon
-A mirror of source provided in [***Faster identification of optimal contraction sequences for tensor networks***](https://journals.aps.org/pre/abstract/10.1103/PhysRevE.90.033315)
+A mirror of source provided in [***Faster identification of optimal contraction sequences for tensor networks***](https://doi.org/10.1103/PhysRevE.90.033315)
 
-Work is provided in accordance with [Physical Review Transfer of Copyright Agreement](https://journals.aps.org/authors/transfer-of-copyright-agreement). More can be found [here](https://journals.aps.org/pre/authors/supplemental-materials-journals).
+Thank you to Robert Pfeifer and the [American Physical Society](https://www.aps.org/), who have granted re-use permissions. Please contact each party for licensing information.
 
-Thank you to Robert Pfeifer and the [American Physical Society](https://www.aps.org/), who have granted re-use permissions.
+Source code is provided in accordance with [Physical Review Transfer of Copyright Agreement](https://journals.aps.org/authors/transfer-of-copyright-agreement). More can be found [here](https://journals.aps.org/pre/authors/supplemental-materials-journals).
 
 You can cite this work with:
 ```
